@@ -28,11 +28,16 @@ namespace APBD
             }
 
             var hash = new HashSet<Student>(new OwnComparer());
+            var today = DateTime.Today;
 
             XmlTextWriter xmlWriter = new XmlTextWriter(Wyscie, System.Text.Encoding.UTF8);
             xmlWriter.Formatting = Formatting.Indented;
             xmlWriter.WriteStartDocument();
             xmlWriter.WriteStartElement("uczelnia");
+            xmlWriter.WriteAttributeString("author", null, "Krzysztof Jabłoński");
+            xmlWriter.WriteAttributeString("CreatedAt", today.ToShortDateString());
+
+
             xmlWriter.WriteStartElement("studenci");
 
             var lines = File.ReadLines(Wejscie);
@@ -64,8 +69,11 @@ namespace APBD
                 }
                 else
                 {
-                    xmlWriter.WriteStartElement("strudent");
-                    xmlWriter.WriteElementString("index", stud.Index);
+
+
+                    xmlWriter.WriteStartElement("student");
+                    xmlWriter.WriteAttributeString("index", "s"+stud.Index);
+         
                     xmlWriter.WriteElementString("fname", stud.Imie);
                     xmlWriter.WriteElementString("lname", stud.Nazwisko);
                     xmlWriter.WriteElementString("birthdata", stud.DataUrodzenia);
@@ -81,8 +89,8 @@ namespace APBD
                 }
             }
            
-            xmlWriter.WriteEndElement();
-            xmlWriter.WriteEndElement();
+           // xmlWriter.WriteEndElement();
+           // xmlWriter.WriteEndElement();
 
             xmlWriter.Flush();
             xmlWriter.Close();
